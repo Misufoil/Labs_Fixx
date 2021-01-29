@@ -1,0 +1,24 @@
+SOURCES=encoder.c
+FORLIBRARY=stringutils.o coders.o
+LIBRARY=libString.a
+TARGET=encoder
+
+all: $(TARGET)
+
+$(TARGET): encoder.o libString.a
+	gcc encoder.o -o $(TARGET) -std=c99 -L. -lString
+
+encoder.o: encoder.c
+	gcc $< -c -o $@ -std=c99
+
+$(LIBRARY): $(FORLIBRARY)
+	ar cr $(LIBRARY) stringutils.o coders.o
+
+stringutils.o: stringutils.c
+	gcc $< -c -o $@ -std=c99
+
+coders.o: coders.c
+	gcc $< -c -o $@ -std=c99
+
+clean:
+	rm -f *.o *.a $(TARGET)
